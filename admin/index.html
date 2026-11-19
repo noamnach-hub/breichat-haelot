@@ -5,57 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#08444A">
-<title>ניהול · בריכת האלות</title>
+<title>מרחב הניהול · בריכת האלות</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Miriam+Libre:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-
-<!-- Code screen -->
-<section id="lock" class="lock" hidden>
-  <div class="lock-card">
-    <img class="lock-art" src="../images/logo-art.jpg" alt="">
-    <h1>בריכת האלות</h1>
-    <p class="muted">קוד כניסה</p>
-    <div class="dots" id="dots" aria-live="polite"><i></i><i></i><i></i><i></i></div>
-    <p class="lock-msg" id="lockMsg" role="alert"></p>
-    <div class="pad" id="pad">
-      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
-      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
-      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
-      <span></span><button data-k="0">0</button><button data-k="del" aria-label="מחיקה">⌫</button>
-    </div>
-  </div>
-</section>
-
-<!-- App -->
-<div id="app" class="app" hidden>
-  <header class="top">
-    <h1 id="viewTitle">יומן</h1>
-    <button class="icon-btn" id="refreshBtn" aria-label="רענון">↻</button>
-  </header>
-
-  <main id="view" class="view"></main>
-
-  <nav class="tabs" aria-label="ניווט">
-    <button data-view="calendar" class="on"><span>🗓</span>יומן</button>
-    <button data-view="clients"><span>👥</span>לידים ולקוחות</button>
-    <button data-view="settings"><span>⚙</span>הגדרות</button>
-  </nav>
-</div>
-
-<!-- Sheet (modal) -->
-<div id="sheet" class="sheet" hidden>
-  <div class="sheet-card" role="dialog" aria-modal="true">
-    <button class="icon-btn sheet-close" id="sheetClose" aria-label="סגירה">✕</button>
-    <div id="sheetBody"></div>
-  </div>
-</div>
-
-<div id="toast" class="toast" role="status" hidden></div>
-
+<!-- המסך נבנה כולו ב-admin.js. הנתונים מגיעים מהשרת; עם ?demo בכתובת הם מגיעים מ-sample.json. -->
+<div id="root"><p class="loading">טוענת…</p></div>
 <script src="admin.js"></script>
 </body>
 </html>

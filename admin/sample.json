@@ -1,0 +1,54 @@
+{
+  "_note": "נתוני דוגמה למסך הניהול, באותו מבנה של תשובות השרת. נטענים רק כשפותחים את /admin/?demo. הקוד בדוגמה: 2468.",
+  "treatments": [
+    { "id": "tSolo", "name": "וואטסו וצלילים מרפאים", "minutes": 90, "price": null, "onSite": true, "order": 1, "receiptText": "טיפול וואטסו וצלילים מרפאים" },
+    { "id": "tPair", "name": "טיפול זוגי במים", "minutes": 120, "price": null, "onSite": true, "order": 2, "receiptText": "טיפול זוגי במים" },
+    { "id": "tEve", "name": "צלילים במים", "minutes": 120, "price": 300, "onSite": false, "order": 3, "receiptText": "ערב צלילים במים" }
+  ],
+  "hours": [
+    { "id": "h0", "day": "ראשון", "dayNum": 0, "open": "09:00", "close": "19:30", "active": true },
+    { "id": "h1", "day": "שני", "dayNum": 1, "open": "09:00", "close": "19:30", "active": true },
+    { "id": "h2", "day": "שלישי", "dayNum": 2, "open": "09:00", "close": "19:30", "active": true },
+    { "id": "h3", "day": "רביעי", "dayNum": 3, "open": "10:00", "close": "19:30", "active": true },
+    { "id": "h4", "day": "חמישי", "dayNum": 4, "open": "09:00", "close": "19:30", "active": true },
+    { "id": "h5", "day": "שישי", "dayNum": 5, "open": "09:00", "close": "14:00", "active": true },
+    { "id": "h6", "day": "שבת", "dayNum": 6, "open": "", "close": "", "active": false }
+  ],
+  "settings": [
+    { "id": "s1", "key": "שליחת קבלה ללקוח במייל", "value": "כן", "note": "" }
+  ],
+  "blocks": [
+    { "id": "b1", "from": "2026-11-30", "to": "2026-11-30", "reason": "" },
+    { "id": "b2", "from": "2026-12-24", "to": "2026-12-27", "reason": "חופשה" }
+  ],
+  "clients": [
+    { "id": "c1", "name": "", "phone": "0542278810", "email": "", "status": "ליד חדש", "source": "טלפון", "notes": "", "createdTime": "2026-11-19T10:05:00.000Z" },
+    { "id": "c2", "name": "רותם גולן", "phone": "0509981230", "email": "rotem@example.com", "status": "ליד חדש", "source": "אתר - קביעת תור", "notes": "", "createdTime": "2026-11-19T13:35:00.000Z" },
+    { "id": "c3", "name": "שירה ועומר טל", "phone": "0534419002", "email": "shira@example.com", "status": "ליד חדש", "source": "אתר - קביעת תור", "notes": "", "createdTime": "2026-11-19T12:00:00.000Z" },
+    { "id": "c4", "name": "מיכל אבידן", "phone": "0546620178", "email": "michal@example.com", "status": "ליד חדש", "source": "אתר - קביעת תור", "notes": "", "createdTime": "2026-11-18T19:40:00.000Z" },
+    { "id": "c5", "name": "הילה שגיא", "phone": "0526604411", "email": "", "status": "בטיפול", "source": "וואטסאפ", "notes": "שאלה על שובר מתנה", "createdTime": "2026-11-18T09:00:00.000Z" },
+    { "id": "c6", "name": "ליאת מזרחי", "phone": "0583127745", "email": "", "status": "בטיפול", "source": "פייסבוק", "notes": "מתעניינת בסדנת \"בואי כלה\"", "createdTime": "2026-11-16T09:00:00.000Z" },
+    { "id": "c7", "name": "נועה ברק", "phone": "0507712345", "email": "noa.barak@gmail.com", "status": "לקוח", "source": "פייסבוק", "notes": "מעדיפה שעות בוקר. אוהבת צלילי קערות. רגישות קלה בכתף ימין.", "createdTime": "2026-08-14T09:00:00.000Z" },
+    { "id": "c8", "name": "יעל שמש", "phone": "0549013388", "email": "yael.s@example.com", "status": "לקוח", "source": "המלצה", "notes": "", "createdTime": "2026-07-02T09:00:00.000Z" },
+    { "id": "c9", "name": "דנה ורון כהן", "phone": "0523318890", "email": "dana@example.com", "status": "לקוח", "source": "אתר - קביעת תור", "notes": "", "createdTime": "2026-10-01T09:00:00.000Z" },
+    { "id": "c10", "name": "ליאור אדלר", "phone": "0537720019", "email": "lior@example.com", "status": "לקוח", "source": "פייסבוק", "notes": "", "createdTime": "2026-11-10T09:00:00.000Z" },
+    { "id": "c11", "name": "אורית נחום", "phone": "0504456120", "email": "", "status": "לא רלוונטי", "source": "טלפון", "notes": "חיפשה טיפול בצפון", "createdTime": "2026-10-15T09:00:00.000Z" },
+    { "id": "c12", "name": "הילה רז", "phone": "0521112233", "email": "", "status": "לקוח", "source": "המלצה", "notes": "", "createdTime": "2026-09-01T09:00:00.000Z" }
+  ],
+  "appointments": [
+    { "id": "a1", "clientId": "c8", "treatmentId": "tSolo", "start": "2026-11-16T15:00:00.000Z", "end": "2026-11-16T16:30:00.000Z", "status": "בוצע", "receiptNo": "1036", "amount": 380, "payMethod": "ביט" },
+    { "id": "a2", "clientId": "c7", "treatmentId": "tSolo", "start": "2026-10-29T08:45:00.000Z", "end": "2026-10-29T10:15:00.000Z", "status": "בוצע", "receiptNo": "1031", "amount": 380, "payMethod": "ביט" },
+    { "id": "a3", "clientId": "c7", "treatmentId": "tSolo", "start": "2026-10-08T07:00:00.000Z", "end": "2026-10-08T08:30:00.000Z", "status": "בוצע", "receiptNo": "1019", "amount": 380, "payMethod": "מזומן" },
+    { "id": "a4", "clientId": "c7", "treatmentId": "tSolo", "start": "2026-08-21T13:00:00.000Z", "end": "2026-08-21T14:30:00.000Z", "status": "בוצע", "receiptNo": "1002", "amount": 380, "payMethod": "העברה בנקאית" },
+    { "id": "a5", "clientId": "c10", "treatmentId": "tSolo", "start": "2026-11-19T07:00:00.000Z", "end": "2026-11-19T08:30:00.000Z", "status": "בוצע", "receiptNo": "1041", "amount": 380, "payMethod": "אשראי" },
+    { "id": "a6", "clientId": "c9", "treatmentId": "tPair", "start": "2026-11-19T09:00:00.000Z", "end": "2026-11-19T10:30:00.000Z", "status": "בוצע" },
+    { "id": "a7", "clientId": "c7", "treatmentId": "tSolo", "start": "2026-11-19T11:00:00.000Z", "end": "2026-11-19T12:30:00.000Z", "status": "מאושר", "notes": "מבקשת להתחיל בצלילים לפני הכניסה למים. רגישות קלה בכתף ימין." },
+    { "id": "a8", "clientId": "c8", "treatmentId": "tSolo", "start": "2026-11-19T14:00:00.000Z", "end": "2026-11-19T15:30:00.000Z", "status": "מאושר" },
+    { "id": "a9", "clientId": "c2", "treatmentId": "tSolo", "start": "2026-11-19T16:00:00.000Z", "end": "2026-11-19T17:30:00.000Z", "status": "בקשה חדשה", "source": "אתר", "clientNote": "פעם ראשונה שלי בוואטסו. אפשר להגיע כמה דקות לפני?", "createdTime": "2026-11-19T13:35:00.000Z" },
+    { "id": "a10", "clientId": "c12", "treatmentId": "tSolo", "start": "2026-11-20T07:00:00.000Z", "end": "2026-11-20T08:30:00.000Z", "status": "מאושר" },
+    { "id": "a11", "clientId": "c3", "treatmentId": "tPair", "start": "2026-11-20T08:45:00.000Z", "end": "2026-11-20T10:45:00.000Z", "status": "בקשה חדשה", "source": "אתר", "clientNote": "מתנה ליום הנישואין שלנו", "createdTime": "2026-11-19T12:00:00.000Z" },
+    { "id": "a12", "clientId": "c4", "treatmentId": "tSolo", "start": "2026-11-22T10:30:00.000Z", "end": "2026-11-22T12:00:00.000Z", "status": "בקשה חדשה", "source": "אתר", "createdTime": "2026-11-18T19:40:00.000Z" },
+    { "id": "a13", "clientId": "c9", "treatmentId": "tPair", "start": "2026-11-18T14:00:00.000Z", "end": "2026-11-18T16:00:00.000Z", "status": "בוצע" },
+    { "id": "a14", "clientId": "c10", "treatmentId": "tSolo", "start": "2026-11-17T11:00:00.000Z", "end": "2026-11-17T12:30:00.000Z", "status": "בוצע" }
+  ]
+}
