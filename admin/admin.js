@@ -109,16 +109,33 @@ const first = (name) => String(name || '').trim().split(/\s+/)[0] || '';
 // Appointment status → design key. A receipt turns "בוצע" into "קבלה הופקה".
 function stKey(a) {
   if (a.receiptNo) return 'invoiced';
-  return { 'בקשה חדשה': 'new', 'מאושר': 'approved', 'בוצע': 'done', 'נדחה': 'rejected', 'בוטל': 'cancelled' }[a.status] || 'approved';
+  return { 'בקשה חדשה': 'new', 'ממתין לתשלום': 'pay', 'מאושר': 'approved', 'בוצע': 'done', 'נדחה': 'rejected', 'בוטל': 'cancelled' }[a.status] || 'approved';
 }
 const ST = {
   new: { label: 'בקשה חדשה', icon: 'clock' },
+  pay: { label: 'ממתין לתשלום', icon: 'clock' },
   approved: { label: 'מאושר', icon: 'check' },
   done: { label: 'בוצע · ממתין לקבלה', short: 'בוצע', icon: 'done2' },
   invoiced: { label: 'קבלה הופקה', icon: 'doc' },
   rejected: { label: 'נדחה' }, cancelled: { label: 'בוטל' }
 };
 const visible = (a) => !['rejected', 'cancelled'].includes(stKey(a));
+
+// A treatment booked from the WhatsApp link: where its payment stands, and the screenshot.
+function payBox(a) {
+  if (!a.payStatus) return '';
+  const lines = {
+    'ממתין לתשלום': `השעה שמורה${a.payBy ? ` עד ${esc(relDay(dayIL(a.payBy)))} ב-<span class="ltr">${timeIL(a.payBy)}</span>` : ''}. פרטי התשלום נשלחו בוואטסאפ, ועוד לא הגיע צילום מסך.`,
+    'אסמכתה התקבלה': `הגיע צילום מסך${a.proofAt ? ` ב-${esc(relDay(dayIL(a.proofAt)))}, <span class="ltr">${timeIL(a.proofAt)}</span>` : ''}, והתור אושר. לפני הקבלה כדאי לבדוק בביט או בפייבוקס שהכסף באמת נכנס.`,
+    'שולם': 'שולם, והופקה קבלה.',
+    'לא שולם': 'לא הגיע תשלום, והשעה שוחררה.',
+  };
+  const files = (a.proofs || []).map((p) => /^image\//.test(p.type || '')
+    ? `<a href="${esc(p.url)}" target="_blank" rel="noopener"><img src="${esc(p.url)}" alt="צילום המסך של התשלום" style="max-width:100%;max-height:260px;border-radius:14px;display:block;margin-top:10px"></a>`
+    : `<a href="${esc(p.url)}" target="_blank" rel="noopener">${ic('down')}${esc(p.name || 'האסמכתה')}</a>`).join('');
+  return `<div class="note-card"><div class="hd"><strong>תשלום · ${esc(a.payStatus)}</strong>${a.amount ? `<span>${money(a.amount)}</span>` : ''}</div>
+    <p style="margin:6px 0 0">${lines[a.payStatus] || ''}</p>${files}</div>`;
+}
 const LEAD = { 'ליד חדש': 'new', 'בטיפול': 'working', 'לקוח': 'client', 'לא רלוונטי': 'irrelevant' };
 const LEAD_ORDER = ['ליד חדש', 'בטיפול', 'לקוח', 'לא רלוונטי'];
 const METHODS = [
@@ -513,8 +530,10 @@ async function pageTreatment(id) {
       <div class="note-card"><div class="hd"><label for="tr-notes">הערות</label><span id="saveState">נשמר אוטומטית</span></div>
         <textarea id="tr-notes" class="input" rows="3">${esc(a.notes)}</textarea></div>
       ${c ? `<a class="to-client" href="#/c/${c.client.id}"><span><strong>כרטיס הלקוחה</strong> · ${hist.length} טיפולים, ${receipts} קבלות</span>${ic('next')}</a>` : ''}
+      ${payBox(a)}
       <div class="t-actions">
         ${k === 'new' ? `<div class="req-actions"><button type="button" class="btn" data-st="מאושר">${ic('check')}אישור</button><button type="button" class="btn plain" data-st="נדחה">${ic('x')}דחייה</button></div>` : ''}
+        ${k === 'pay' ? `<div class="req-actions"><button type="button" class="btn" data-st="מאושר">${ic('check')}אישור בלי לחכות</button><button type="button" class="btn plain" data-st="בוטל">${ic('x')}ביטול התור</button></div>` : ''}
         ${k === 'approved' || k === 'done' ? `<button type="button" class="btn big" data-receipt>${ic('doc')}סיום טיפול והפקת קבלה</button>` : ''}
         ${k === 'approved' ? `<button type="button" class="linkbtn" data-st="בוצע">סימון כבוצע, קבלה אחר כך</button>` : ''}
         ${k === 'invoiced' ? `<a class="btn dark" style="min-height:58px" href="${esc(a.receiptUrl || '#')}" target="_blank" rel="noopener">${ic('down')}קבלה מס׳ ${esc(a.receiptNo)} · PDF</a>` : ''}

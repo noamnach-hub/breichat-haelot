@@ -6,6 +6,8 @@
   var API = 'https://breichat-haelot-backend.onrender.com';
   var TZ = 'Asia/Jerusalem';
   var DEMO = /[?&]demo\b/.test(location.search);
+  // הקישור האישי שליד מקבל בוואטסאפ (?t=...): הפרטים שלו כבר ממולאים, ואחרי הקביעה התור ממתין לתשלום.
+  var TOKEN = (location.search.match(/[?&]t=([A-Za-z0-9._-]{20,60})/) || [])[1] || '';
 
   // הטקסטים של כרטיסי הטיפולים. המשך והמחיר מגיעים מההגדרות בשרת.
   var TREATMENT_TEXT = {
@@ -53,6 +55,9 @@
     },
     slots: function (id) {
       return DEMO ? getSample().then(function (s) { return s.slots[id] || []; }) : getJSON('/api/public/slots?treatment=' + encodeURIComponent(id) + '&days=14').then(function (d) { return d.days; });
+    },
+    me: function () {
+      return fetch(API + '/api/public/me?t=' + encodeURIComponent(TOKEN)).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     },
     book: function (body) {
       if (DEMO) return new Promise(function (ok) { setTimeout(function () { ok({ ok: true }); }, 400); });
@@ -190,9 +195,10 @@
     var btn = $('bkSend'); btn.disabled = true; btn.textContent = 'שולחת…';
     data.book({
       treatmentId: t.id, start: state.time, name: name, phone: phone, email: email,
-      note: field('note').value.trim(), website: field('website').value
-    }).then(function () {
+      note: field('note').value.trim(), website: field('website').value, t: TOKEN || undefined
+    }).then(function (res) {
       var when = dayFull(state.d), hour = timeIL(state.time);
+      if (res && res.payment) showPayment(res.payment);
       $('bkDoneT').textContent = t.name; $('bkDoneD').textContent = when; $('bkDoneH').textContent = hour;
       $('bkDoneLine').textContent = t.name + ' · ' + when + ' · ' + hour;
       $('bkForm').hidden = true; $('bkDone').hidden = false;
@@ -208,6 +214,22 @@
     }).then(function () { btn.textContent = 'שליחת בקשה לתור'; renderSummary(); });
   });
 
+  // תור מהקישור האישי: השעה שמורה עד שמגיע בוואטסאפ צילום מסך של התשלום.
+  function showPayment(p) {
+    var done = $('bkDone');
+    var until = p.until ? dayFull(todayOf(p.until)) + ' בשעה ' + timeIL(p.until) : '';
+    done.querySelector('.bk-pending').innerHTML = '<span class="dot" aria-hidden="true"></span>ממתינה לתשלום';
+    done.querySelector('h3').textContent = 'השעה שמורה לך.';
+    done.querySelector('.bk-done-lead').textContent = 'בעוד כמה דקות תגיע אלייך הודעה בוואטסאפ עם פרטי התשלום'
+      + (p.amount ? ': ' + p.amount + ' ₪ בביט או בפייבוקס ל-' + p.phone : '') + '. אחרי ההעברה שולחים שם צילום מסך, והתור נסגר.';
+    var rows = done.querySelectorAll('.bk-next-row');
+    var set = function (i, strong, sub) { if (!rows[i]) return; rows[i].querySelector('strong').textContent = strong; rows[i].querySelector('.sub').textContent = sub; };
+    set(0, 'השעה שמורה לך', until ? 'עד ' + until + '.' : 'עד שמגיע התשלום.');
+    set(1, 'תשלום וצילום מסך', 'בביט או בפייבוקס, ואז צילום מסך בוואטסאפ.');
+    set(2, 'התור נסגר', 'ברגע שצילום המסך מגיע.');
+  }
+  function todayOf(iso) { return new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(iso)); }
+
   $('bkAgain').addEventListener('click', function () {
     state = { t: null, d: null, time: null };
     $('bkFields').reset(); showError('');
@@ -216,6 +238,12 @@
   });
 
   // ── start ───────────────────────────────────────────────────────
+  if (TOKEN && !DEMO) {
+    data.me().then(function (me) {
+      if (!me) return;
+      ['name', 'phone', 'email'].forEach(function (k) { var el = field(k); if (el && !el.value && me[k]) el.value = me[k]; });
+    });
+  }
   data.treatments().then(function (list) {
     treatments = list.map(function (t) { return { id: t.id, name: t.name, minutes: t.minutes, price: t.price, kind: kindOf(t.name) }; });
     renderTreatments();

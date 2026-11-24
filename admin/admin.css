@@ -47,6 +47,7 @@ input[dir="ltr"]{text-align:right}
 /* ── status chips (design: System + Home ST map) ── */
 .pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;font-size:.8125rem;font-weight:700;white-space:nowrap;border:1.5px solid transparent}
 .st-new{background:var(--sun-tint);border:1.5px dashed var(--sun);color:var(--sun-deep)}
+.st-pay{background:var(--sun-tint);border:1.5px solid var(--sun);color:var(--sun-deep)}
 .st-approved{background:var(--turq-deep);border-color:var(--turq-deep);color:var(--white)}
 .st-done{background:var(--shallow);border-color:var(--shallow);color:var(--lagoon)}
 .st-invoiced{background:var(--white);border-color:var(--lagoon);color:var(--lagoon)}
@@ -163,6 +164,8 @@ input[dir="ltr"]{text-align:right}
 .ag .card .lab svg.i{width:15px;height:15px;stroke-width:2.2}
 .c-new{background:var(--sun-tint);border:1.5px dashed var(--sun)!important;color:var(--ink)}
 .c-new .tr{color:var(--muted)}.c-new .lab{color:var(--sun-deep)}
+.c-pay{background:var(--sun-tint);border:1.5px solid var(--sun)!important;color:var(--ink)}
+.c-pay .tr{color:var(--muted)}.c-pay .lab{color:var(--sun-deep)}
 .c-approved{background:var(--turq-deep);border-color:var(--turq-deep)!important;color:var(--white)}
 .c-approved .tr{color:#E3F6F3}.c-approved .lab{color:var(--white)}
 .c-done{background:var(--shallow);border-color:var(--shallow)!important;color:var(--lagoon)}
